@@ -1,14 +1,20 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+
+require('./users/users.schema');
+require('./products/products.schema');
+
 const routes = require('./routes/api');
+const routesV2 = require('./users/users.routes');
+const routesV3 = require('./products/products.routes');
 require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 5000;
 
 // Connect to the database
-mongoose.connect(process.env.DB, { useNewUrlParser: true })
+mongoose.connect("mongodb://localhost:27017/sorakapp", { useNewUrlParser: true })
   .then(() => console.log('Database connected successfully'))
   .catch(err => console.log(err));
 
@@ -25,6 +31,8 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 app.use('/api', routes);
+app.use('/api/v2', routesV2);
+app.use('/api/v3', routesV3);
 
 app.use((err, req, res, next) => {
   console.log(err);
