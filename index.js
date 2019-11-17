@@ -2,19 +2,20 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-require('./users/users.schema');
-require('./products/products.schema');
+require('./src/users/users.schema');
+require('./src/products/products.schema');
 
 const routes = require('./routes/api');
-const routesV2 = require('./users/users.routes');
-const routesV3 = require('./products/products.routes');
+const routesV2 = require('./src/users/users.routes');
+const routesV3 = require('./src/products/products.routes');
 require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 5000;
 
 // Connect to the database
-mongoose.connect("mongodb://localhost:27017/sorakapp", { useNewUrlParser: true })
+//const DatabaseSettings = process.env.DB;
+mongoose.connect('mongodb://localhost:27017/sorakapp', { useNewUrlParser: true })
   .then(() => console.log('Database connected successfully'))
   .catch(err => console.log(err));
 
